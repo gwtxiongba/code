@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="urlMap">
+			<map>
+				
+				<entry key="/services/positionService">
+					<ref bean="positionService" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="positionService"
+		class="org.codehaus.xfire.spring.remoting.XFireExporter">
+		<property name="serviceFactory">
+			<ref bean="xfire.serviceFactory" />
+		</property>
+		<property name="xfire">
+			<ref bean="xfire" />
+		</property>
+		<property name="serviceBean">
+			<ref bean="getPosition" />
+		</property>
+		<property name="serviceClass">
+			<value>
+				com.chanceit.http.service.IPositionWebService
+			</value>
+		</property>
+	</bean>
+	
+</beans>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/rabbit
+                http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd">
+ 
+     
+    <!-- 连接服务配置  -->
+    <rabbit:connection-factory id="connectionFactory" host="127.0.0.1" username="admin" password="admin" port="5672"  /> 
+    <!-- <rabbit:connection-factory id="connectionFactory" host="localhost" username="guest" password="guest" port="5672"  />   -->   
+         
+    <rabbit:admin connection-factory="connectionFactory"/>
+    
+    <!-- exchange queue binging key 绑定 -->
+    <rabbit:direct-exchange name="box" durable="true" auto-delete="false" id="box">
+        <rabbit:bindings>
+            <rabbit:binding queue="carmonitor" key="box.status.*"/>
+            <rabbit:binding queue="carmonitorWarn" key="box.warning.*"/>
+            <rabbit:binding queue="linewarn" key="box.linewarn.*"/>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+    
+     <!-- queue 队列声明-->
+    <rabbit:queue id="carmonitor" durable="true" auto-delete="false" exclusive="false" name="carmonitor"/>
+     
+    <!-- queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象 -->
+    <rabbit:listener-container connection-factory="connectionFactory" acknowledge="auto">
+        <rabbit:listener queues="carmonitor" ref="queueLitener"/>
+    </rabbit:listener-container>
+    
+    <bean id="queueLitener"  class="com.chanceit.framework.utils.MessageQueueClient" scope="prototype" lazy-init="false" >
+        <property name="appid" value="1"/>
+        <property name="nodeJsUrl" value="http://192.168.1.13:3000/?"/>
+ 	</bean>
+ 	
+ 	
+ 	<!-- 报警提醒队列 -->
+ 	<!-- queue 队列声明-->
+    <rabbit:queue id="carmonitorWarn" durable="true" auto-delete="false" exclusive="false" name="carmonitorWarn"/>
+    
+    <!-- queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象 -->
+    <rabbit:listener-container connection-factory="connectionFactory" acknowledge="auto">
+        <rabbit:listener queues="carmonitorWarn" ref="warnLitener"/>
+    </rabbit:listener-container>
+ 	
+ 	<bean id="warnLitener"  class="com.chanceit.framework.utils.WarnMessageQueueClient" scope="prototype" lazy-init="false" >
+        <property name="appid" value="1"/>
+        <property name="nodeJsUrl" value="http://120.25.195.12:3000/?"/>
+ 	</bean>
+    
+    
+    <!-- 路径消息队列 -->
+ 	<!-- queue 队列声明-->
+    <rabbit:queue id="linewarn" durable="true" auto-delete="false" exclusive="false" name="linewarn"/>
+    
+    <!-- queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象 -->
+    <rabbit:listener-container connection-factory="connectionFactory" acknowledge="auto">
+        <rabbit:listener queues="linewarn" ref="linewarnLitener"/>
+    </rabbit:listener-container>
+ 	
+ 	<bean id="linewarnLitener"  class="com.chanceit.framework.utils.LineWarnMessageQueueClient" scope="prototype" lazy-init="false" >
+        <property name="appid" value="1"/>
+        <property name="nodeJsUrl" value="http://120.25.195.12:3000/?"/>
+ 	</bean>
+    <!-- 发送消息 -->
+    <bean id="rabbitTemplate"  
+        class="org.springframework.amqp.rabbit.core.RabbitTemplate">  
+        <constructor-arg ref="connectionFactory"></constructor-arg>  
+    </bean>  
+    <bean id="messageProducer"  
+        class="com.chanceit.framework.utils.MessageProducer">  
+        <property name="rabbitTemplate">  
+            <ref bean="rabbitTemplate" />  
+        </property>  
+    </bean>  
+     <!-- 用于消息的监听的容器类SimpleMessageListenerContainer，对于queueName的值一定要与定义的Queue的值相同
+    <bean id="listenerContainer"  
+        class="org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer">  
+        <property name="queueNames" value="testQueue"></property>  
+        <property name="connectionFactory" ref="connectionFactory"></property>  
+        <property name="messageListener" ref="testListenerAdapter"></property>  
+    </bean>   -->  
+    
+     <!-- 用于消息的监听的代理类MessageListenerAdapter 
+    <bean id="testListenerAdapter"  
+        class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">  
+        <constructor-arg ref="queueLitener" />  
+        <property name="defaultListenerMethod" value="onMessage"></property>  
+        <property name="messageConverter" ref="messageConverter"></property>  
+    </bean>  -->  
+    
+     <!-- 声明消息转换器为SimpleMessageConverter  
+    <bean id="messageConverter"  
+    	class="com.chanceit.framework.utils.JsonMessageConverter">
+        class="org.springframework.amqp.support.converter.SimpleMessageConverter">  
+    </bean> --> 
+    
+</beans>

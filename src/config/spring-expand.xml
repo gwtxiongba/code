@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+ 	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- spring的扩展bean，有些bean通过注解的方式使用无效，必须采用配置文件的形势，在spring容器加载的上下文中加载 -->
+	<bean id="springService" name="springService" class="com.chanceit.framework.utils.SpringService">
+	</bean>
+	
+
+ 	
+ 	
+ 	<!-- add by zhangxin 2014-07-18 start-->
+ 	<bean id="userView"  class="com.chanceit.http.action.UserView" scope="prototype" lazy-init="false" > 
+        <!-- 轨迹回放 -->
+        <property name="pointUrl"  value="http://10.170.148.254:82/GetBaiduPoints/getDayPointsInfo?"/>
+        <!-- 行车日记 -->
+        <property name="diaryUrl"  value="http://127.0.0.1:8080/shopHttp/services/UserRecorderService?wsdl"/>
+        <!-- 断油断电 -->
+        <property name="opCarUrl"  value="http://10.170.148.254:82/citapi/carManage"/>
+        <!-- 超速报警 -->
+        <property name="ovspUrl"  value="http://127.0.0.1:8080/shopHttp/api.action?"/>
+         <property name="httpURL"  value="http://127.0.0.1:8080/shopHttp/api.action?"/>
+        
+ 	</bean>
+ 	<!-- add by zhangxin 2014-07-18 end-->
+ 	
+ 		<bean id="govAppView"  class="com.chanceit.http.action.GovAppView" scope="prototype" lazy-init="false" > 
+        <!-- 获取里程 -->
+        <property name="mileUrl"  value="http://10.170.148.254:82/citapi/get_car_current_mile/"/>
+        <property name="slowTimeUrl"  value="http://10.170.148.254:82/citapi/get_car_slowtime/"/>
+       
+ 	</bean>
+ 	
+
+ 	<bean id="jedisService"  class="com.chanceit.framework.utils.JedisService" scope="prototype" lazy-init="true" > 
+        <property name="serverUrl"  value="http://127.0.0.1:8080/shopHttp/services/positionService?wsdl"/>
+        <property name="port"  value="6379"/>
+        <property name="urlRead"  value="10.173.188.217"/>
+ 	</bean>
+ 	
+ 	<bean id="faultCheckView" class="com.chanceit.http.action.FaultCheckView" scope="prototype" lazy-init="false">
+ 	
+ 		<property name="faultCheckUrl" 	value="http://127.0.0.1:8080/shopHttp/services/UserOBDInfoService"/>
+ 		<!-- 开启/关闭OBD通讯 -->
+ 		<property name="openOrCloseOBDUrl" 	value="http://10.170.148.254:82/citapi/startObd/"/>
+ 		<!-- 获取ODB信息 -->
+ 		<property name="getOBDInfoUrl" value="http://10.170.148.254:82/citapi/getObdInfo/"/>
+ 	</bean>
+ 	
+ 	
+ 	<!-- add by zhangxin 2014-08-19 start-->
+ 	<bean id="pcodeCensusService"  class="com.chanceit.http.service.PcodeCensusService" scope="prototype" lazy-init="false" > 
+        <!-- 故障码统计 -->
+        <!--  <property name="pcodeUrl"  value="http://192.168.0.137:8081/shopHttp/services/pcodeCensusService"/> -->
+        <property name="pcodeUrl"  value="http://127.0.0.1:8080/shopHttp/services/pcodeCensusService"/>
+ 	</bean>
+ 	<!-- add by zhangxin 2014-07-18 end-->
+ 	
+ 	<!-- add by shaozheng 2014-09-10 start-->
+ 	<bean id="driverView"  class="com.chanceit.http.action.DriverView" scope="prototype" lazy-init="false" > 
+        <!-- 轨迹回放 -->
+        <property name="pointUrl"  value="http:/10.170.148.254:82/GetBaiduPoints/getDayPointsInfo?"/>
+        <!-- 获取断电/供电指令电话 -->
+        <property name="phoneUrl" value="http://192.168.0.152:8081/boxcard/services/boxCardWebService?wsdl"></property>
+ 	</bean>
+ 	
+ 	<!-- add by shaozheng 2014-09-18 start-->
+ 	<bean id="baseInfoView"  class="com.chanceit.http.action.BaseInfoView" scope="prototype" lazy-init="false" > 
+        <!-- 品牌列表 -->
+        <property name="brandUrl"  value="http://127.0.0.1:8080/shopHttp/api.action?cmd=allBrandList"/>
+ 	</bean>
+ 	
+ 	<bean id="jpushUtils"  class="com.chanceit.framework.utils.JPushUtils" scope="prototype" lazy-init="false" > 
+        <!-- 品牌列表 -->
+        <property name="app_key"  value="384e1deaa301a4f3edc1e418"/>
+          <property name="app_key_marster"  value="4917889d2fba45e3c0586972"/>
+            <property name="pre"  value="cx"/>
+             <property name="nodeJsUrl" value="http://120.25.195.12:3000/?"/>
+ 	</bean>
+ 	
+ 	<!-- add by gwt 2015-01-06 start-->
+ 	<bean id="formService"  class="com.chanceit.http.service.FormsService" scope="prototype" lazy-init="false" > 
+        <property name="pointUrl"  value="http://10.170.148.254:82/GetBaiduPoints/getDayPointsInfo?"/>
+        <property name="obdUrl"  value="http://127.0.0.1:8080/shopHttp/services/UserRecorderService?wsdl"/>
+        <property name="locationUrl"  value="http://10.170.148.254:82/citapi/getlocbatch"/>
+        <property name="breakURL"  value="http://127.0.0.1:8080/shopHttp/services/UserOBDInfoService?wsdl"/>
+       
+ 	</bean>
+</beans>

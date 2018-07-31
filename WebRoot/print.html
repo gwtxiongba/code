@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <title>省政府接待车队行车派车单</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico"/>
+      <link rel="stylesheet" type="text/css" href="theme/js/extjs4.2/lib/prettify/prettify.css"/>
+        <link rel="stylesheet" href="theme/js/extjs4.2/resources/KitchenSink-all.css"/>
+        <script type="text/javascript" src="theme/js/crmapp.js"></script>
+        <style type="text/css">
+            h1{ font-size: 24px;}
+            table { width: 100%; border-collapse: collapse;}
+            th,td { border: solid 1px black; height: 40px;}
+            th:nth-child(1),th:nth-child(4),td:nth-child(1),td:nth-child(4) { width: 5%; text-align: center;}
+            th:nth-child(2),th:nth-child(5) { text-align: center;}
+            th:nth-child(2),th:nth-child(5),td:nth-child(2),td:nth-child(5) { width: 15%; }
+            th:nth-child(3),th:nth-child(6),td:nth-child(3),td:nth-child(6) { width: 30%; text-align: center;}
+            
+            caption { position: relative;}
+            button { position: absolute; top:18px; right:0;cursor: pointer;}
+        </style>
+    </head>
+    <body>
+        <table>
+            <caption><h1>省政府接待车队行车派车单</h1><button id="bt_print">打印派车单</button></caption>
+            <tr>
+                <th>序号</th>
+                <th>结算要素</th>
+                <th>结算内容</th>
+                <th>序号</th>
+                <th>结算要素</th>
+                <th>结算内容</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>&nbsp;用车单位</td>
+                <td><span id="unit">&nbsp;</span>/<span id="depart">&nbsp;</span></td>
+                <td rowspan="6">10</td>
+                <td rowspan="6">&nbsp;每日行程</td>
+                <td rowspan="6">&nbsp;</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>&nbsp;用车人[签名]</td>
+                <td><span id="fareName">&nbsp;</span>[　　　　　 ]</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>&nbsp;用车人电话</td>
+                <td id="fareTel">&nbsp;</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>&nbsp;用车时间</td>
+                <td >&nbsp;</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>&nbsp;用车天数</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>&nbsp;车型</td>
+                <td id="brandName">&nbsp;</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>&nbsp;车号</td>
+                <td id="plate">&nbsp;</td>
+                <td>11</td>
+                <td>&nbsp;路桥停车费</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>&nbsp;驾驶员</td>
+                <td id="driverName">&nbsp;</td>
+                <td>12</td>
+                <td>&nbsp;用车计费</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>&nbsp;派车人签名</td>
+                <td>&nbsp;</td>
+                <td>13</td>
+                <td>&nbsp;合计费用</td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+    </body>
+</html>

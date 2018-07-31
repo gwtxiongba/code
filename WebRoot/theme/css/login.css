@@ -1,0 +1,13 @@
+html { height: 100%; font-size: 12px; overflow: hidden;}
+body { height: 100%; background:url(../imgs/login_bg_new.png) no-repeat center center;background-size:cover; background-color: #D8E3F5; position: relative;}
+.bdwrap { height: 100%;}
+.box { width: 735px; height: 520px; top:50%; left: 50%; margin-top:-260px; margin-left: -366px; position: absolute; text-align: center;}
+.apptitle { width: 735px; height: 99px;  margin:0 auto;}
+.login { width: 376px; height: 256px; border: solid 3px #2976BA;  margin:30px auto; background-color: white; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius:5px; position: relative; text-align: left;}
+.car { width: 205px; height: 143px;  position: absolute; right:-26px; bottom:58px;}
+.redStar { color: red; position: absolute; top:5px; right: -10px;}
+.x-form-item { margin: 20px 0;}
+.x-form-item-label { font-size: 15px; color: #045BAA;}
+.x-form-code { width: 73px; height:26px; vertical-align: middle; cursor: pointer; position: absolute; bottom: 20px; left:170px;}
+.x-box-inner { text-align: center;}
+.bottom { text-align: center;}

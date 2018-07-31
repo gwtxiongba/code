@@ -1,0 +1,35 @@
+{
+    children: {
+        text:'所有车辆',
+        checked:false,
+        expanded: true,
+        children: [
+        {
+            id: 1, 
+            text: "车队1", 
+            checked: false,
+            children:[]
+        },{
+            id: 2,
+            text: "车队2",
+            expanded: true,
+            checked: false,
+            children: [{
+                id: 3, 
+                text: "鄂A6QM99", 
+                leaf: true, 
+                checked: false
+            },{
+                id: 4, 
+                text: "鄂A6F753", 
+                leaf: true, 
+                checked: false
+            }]
+        },{
+            id: 5, 
+            text: "车队3", 
+            checked: false,
+            children:[]
+        }]
+    }
+}

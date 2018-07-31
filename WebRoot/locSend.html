@@ -1,0 +1,157 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title></title>
+         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+        <link rel="stylesheet" type="text/css" href="theme/js/extjs4.2/lib/prettify/prettify.css"/>
+        <link rel="stylesheet" href="theme/js/extjs4.2/resources/KitchenSink-all.css"/>
+        <link rel="stylesheet" href="theme/css/sys.css"/>
+        <style type="text/css">
+				#dddmap{height:580;float:left;}
+				#r-result{overflow-y:scroll;height:580;width:200;float:right;}
+				</style>
+    </head>
+   <body>
+  	<script type="text/javascript">
+	  //创建和初始化地图函数：
+
+	var pointY;
+	var pointX;
+	var identifiers;
+	var selecstreet;
+	var markerList = [];
+	var infoWindowOpts = {width:250,height:90,title:'<span style="font-size:15px;color:#0A8021">车库信息</span>'}
+	
+    function initMap(){
+        createMap();//创建地图
+        setMapEvent();//设置地图事件
+        addMapControl();//向地图添加控件
+    }
+    
+    //创建地图函数：
+    function createMap(){
+        var map = new BMap.Map("dddmap");//在百度地图容器中创建一个地图
+        var point = new BMap.Point(114.408792,30.463457);//定义一个中心点坐标
+        map.centerAndZoom(point,12);//设定地图的中心点和坐标并将地图显示在地图容器中
+        var gc = new BMap.Geocoder();
+		 var marker = new BMap.Marker(114.408792,30.463457);  // 创建标注
+		 map.addOverlay(marker);              // 将标注添加到地图中
+		 marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+		window.marker = marker;
+        window.gc = gc;
+        window.map = map;//将map变量存储在全局
+    }
+    
+	//搜索
+    function searchPla(loc){
+    	document.getElementById("r-result").style.display="";
+        document.getElementById("dddmap").style.width=560;
+    	var local = new BMap.LocalSearch(map, {
+    		  renderOptions: {map: map, panel: "r-result"}
+    		});
+    		local.search(loc);
+        }
+    
+    //地图事件设置函数：
+    function setMapEvent(){
+        map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+        map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+        map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+        map.enableKeyboard();//启用键盘上下左右键移动地图
+        map.addControl(new BMap.NavigationControl());        // 添加平移缩放控件
+    	map.addControl(new BMap.ScaleControl());             // 添加比例尺控件
+    	map.addControl(new BMap.OverviewMapControl());       //添加缩略地图控件
+    	map.addControl(new BMap.MapTypeControl());           //添加地图类型控件
+    	map.addEventListener("click", showInfo);
+    }
+    
+    //地图控件添加函数：
+    function addMapControl(){
+                        }
+	 
+	function loadScript(loc) { 
+	var script = document.createElement("script"); 
+	script.src = "http://api.map.baidu.com/api?v=1.4&callback=initMap"; 
+	document.body.appendChild(script); 
+	} 
+
+	function showInfo(e){
+		 marker.setPosition(e.point);
+		 pointX = e.point.lng ;
+		 pointY = e.point.lat;
+		 var pt = e.point;
+		 gc.getLocation(pt, function(rs){
+		        var addComp = rs.addressComponents;
+		        selecstreet = ""+addComp.province+ '' + addComp.city+ '' + addComp.district+ '' + addComp.street+ '' + addComp.streetNumber;
+		        window.parent.selecstreet = selecstreet;
+		       // self.parent.addToOrders(32068)
+		       window.parent.document.getElementById('selectedloc').innerText=selecstreet;
+		    });
+		}
+		
+	function addMarker(data){
+		for(var i=0;i<markerList.length;i++){
+			map.removeOverlay(markerList[i]);
+		}
+	
+		for(var i=0;i<data.getCount();i++){
+			(function(x){
+				var point = new BMap.Point(data.getAt(i).get('x'),data.getAt(i).get('y'));
+				map.centerAndZoom(point, 13); 
+				var marker = new BMap.Marker(point);
+				var p_info = data.getAt(i);
+				var str = "<span style='font-size:13px'>名称:" + p_info.get('driver').driverName
+						+"<br/>地址:" + p_info.get('parkingPosition')
+						+"<br/>管理员:" + p_info.get('adminName')
+						+"<br/>电话:" + p_info.get('parkingTel')+"</span>";
+				var infoW = new BMap.InfoWindow(str,infoWindowOpts);
+				marker.addEventListener("click",function(){
+					this.openInfoWindow(infoW);
+				});
+				markerList[i] = marker;
+				map.addOverlay(marker);
+			})(i);
+		}
+		map.setZoom(5);
+	}	
+	
+	function addMarkerPoint(pointX,pointY){
+		var point = new BMap.Point(pointX,pointY);
+		map.centerAndZoom(point, 13); 
+		var marker = new BMap.Marker(point);
+	}
+				
+	function parLocation(rec,rowIndex){
+		var driverName;
+		for(var i=0;i<markerList.length;i++){
+			map.removeOverlay(markerList[i]);
+		}
+		var infoW = new BMap.InfoWindow(
+			"<span style='font-size:13px'>名称:"+rec.get('driver').driverName
+			+"<br/>地址:"+rec.get('parkingPosition')
+			+"<br/>管理员:"+ rec.get('adminName')
+			+"<br/>电话:"+rec.get('parkingTel')+"</span>",infoWindowOpts);
+		var point = new BMap.Point(rec.get('x'),rec.get('y'));
+		var marker = new BMap.Marker(point);
+		markerList[0] = marker; 
+		map.addOverlay(marker);
+		marker.openInfoWindow(infoW);
+		map.centerAndZoom(point,map.getZoom());
+		marker.addEventListener("click",function(){
+					this.openInfoWindow(infoW);
+				});
+		map.setZoom(13);
+	}	
+	
+	window.loadScript();
+		
+	</script> 
+	  	
+	<div id="dddmap" style="width:100%"></div>
+	<div id="r-result" style="display: none"></div>
+</body>
+</html>
+

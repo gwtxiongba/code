@@ -1,0 +1,83 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+		"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-lazy-init="false">
+	
+
+	<bean id="dateEditor"   class="org.springframework.beans.propertyeditors.CustomDateEditor">   
+	       <constructor-arg>   
+	           <bean class="java.text.SimpleDateFormat">   
+	               <constructor-arg value="yyyy-MM-dd HH:mm:ss" />   
+	           </bean>   
+	       </constructor-arg>   
+	       <constructor-arg value="true" />   
+	</bean>   
+    
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">   
+        <property name="customEditors">   
+            <map>   
+                <entry key="java.util.Date">   
+                    <ref local="dateEditor" />   
+                </entry>   
+            </map>   
+        </property>   
+    </bean>   
+    
+    <!-- add by zhangxin 2014-08-19 -->
+	<bean id="censusPcode" class="com.chanceit.http.service.PcodeCensusService">
+		<!-- 故障码统计 -->
+		<property name="pcodeUrl"  value="http://192.168.0.137:8081/shopHttp/services/pcodeCensusService"/>
+	</bean>
+	
+	<bean id="censusPcodeBean"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="censusPcode" />
+		<property name="targetMethod" value="start" /> 
+		<property name="concurrent" value="true" />
+	</bean>
+	
+	<bean id="statisticsPcodeTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="censusPcodeBean" />
+		 <!-- s m h d m w(?) y(?) 分别对应: 秒>分>小时>日>月>周>年, -->  
+		<property name="cronExpression"> 
+			<value>0 0 0 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- add begin by zhangyejia 2014-12-24 -->
+	<bean id="driveReport" class="com.chanceit.http.service.DriveReportService">
+		<property name="cycleReportUrl" value="http://www.chanceit.cn:8081/services/UserRecorderService?wsdl"/>
+		<property name="driveReportUrl" value="http://192.168.1.12:82/GetBaiduPoints/getDayPointsInfo?"></property>
+	</bean>
+	
+	<bean id="reportBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="driveReport" />
+		<property name="targetMethod" value="report" /> 
+		<property name="concurrent" value="true" />
+	</bean>
+	
+	<bean id="reportTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">  
+	   <property name="jobDetail">  
+	       <ref bean="reportBean"/>  
+	   </property>  
+	    <property name="startDelay">  
+	       <value>21000</value>  
+	   </property>  
+	   <property name="repeatInterval">  
+	       <value>180000</value>
+	  </property>  
+	  <property name="startTime">  
+	       <value>2014-06-30 18:00:00</value>  
+	  </property> 
+	  <property name="endTime"  value="2114-06-30 18:35:00" /> 
+	     <!--每天凌晨1点触发一次 -->
+	      <!-- 
+	  <property name="cronExpression">
+           
+            <value>0 0 1 ? * *</value>
+        </property> 
+       -->
+	</bean>
+	
+	<!-- add end by zhangyejia 2014-12-24 -->
+</beans>
