@@ -25,16 +25,16 @@ public class Role implements java.io.Serializable {
 	@Expose
 	private String roleName;
 	@Expose
-	private String rights;
+	private Integer roleNum;
 
-	// Constructors
-	@Column(name = "rights")
-	public String getRights() {
-		return rights;
+	
+	@Column(name = "role_num")
+	public Integer getRoleNum() {
+		return roleNum;
 	}
 
-	public void setRights(String rights) {
-		this.rights = rights;
+	public void setRoleNum(Integer roleNum) {
+		this.roleNum = roleNum;
 	}
 
 	/** default constructor */

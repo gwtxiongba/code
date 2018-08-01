@@ -179,19 +179,6 @@ public abstract class BaseAction extends ActionSupport implements Preparable{
 		return (Account) getSession().getAttribute("account");
 	}
 	
-	public String getCompanyId(){
-		String accountId;
-		Account account = getSessionAccount();
-		if(account==null){
-			return "";
-		}
-		if(account.getRole().getRoleId()==1){
-			accountId = account.getAccountId().toString();
-		}else{
-			accountId = account.getParentId().toString();
-		}
-		return accountId;
-	}
 	/**
 	 * @author Administrator
 	 * @date Nov 4, 2013

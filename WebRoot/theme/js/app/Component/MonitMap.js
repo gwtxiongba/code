@@ -364,8 +364,8 @@ Ext.define('MyApp.Component.MonitMap',{
             setTimeout(me.monit,1000);
 
             G_AppTimer.add(1,function(){
-                me.monit(); 
-                 top.Ext.getCmp('CarTreePanel_id').refreshTree();
+            //    me.monit(); 
+              //   top.Ext.getCmp('CarTreePanel_id').refreshTree();
                   //Ext.ajaxModelLoader('MyApp.Model.GetLimitCount').request();
             });
             me.mapLoaded();

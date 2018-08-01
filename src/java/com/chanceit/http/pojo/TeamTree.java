@@ -30,14 +30,8 @@ public class TeamTree implements java.io.Serializable {
 	// Fields
 	private Integer id;
 	private String text;
-	private Integer accountId;
-	private Integer amount;
 	private Integer parent_id;
 	boolean leaf = false;
-    private Integer uid;
-    private String ifOff;
-    private String cutpwd;
-    private String relay;
     private String iconCls;
 	private List<TeamTree> children = new ArrayList<TeamTree>();;
 	public Integer getPid() {
@@ -72,13 +66,6 @@ public class TeamTree implements java.io.Serializable {
 	}
 
 
-	public Integer getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Integer amount) {
-		this.amount = amount;
-	}
 	
 
 	public Integer getTeamId() {
@@ -87,13 +74,6 @@ public class TeamTree implements java.io.Serializable {
 
 	public void setTeamId(Integer id) {
 		this.id = id;
-	}
-	public Integer getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(Integer accountId) {
-		this.accountId = accountId;
 	}
 
 	public List<TeamTree> getTreeList() {
@@ -112,37 +92,7 @@ public class TeamTree implements java.io.Serializable {
 		this.leaf = leaf;
 	}
 
-	public Integer getUid() {
-		return uid;
-	}
 
-	public void setUid(Integer uid) {
-		this.uid = uid;
-	}
-
-	public String getIfOff() {
-		return ifOff;
-	}
-
-	public void setIfOff(String ifOff) {
-		this.ifOff = ifOff;
-	}
-
-	public String getCutpwd() {
-		return cutpwd;
-	}
-
-	public void setCutpwd(String cutpwd) {
-		this.cutpwd = cutpwd;
-	}
-
-	public String getRelay() {
-		return relay;
-	}
-
-	public void setRelay(String relay) {
-		this.relay = relay;
-	}
 
 	public String getIconCls() {
 		return iconCls;

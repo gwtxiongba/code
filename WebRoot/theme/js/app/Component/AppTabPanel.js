@@ -26,16 +26,6 @@ Ext.define('MyApp.Component.AppTabPanel',{
               {id:'tab_0', title:'监控视区', html:'<div id="mapDiv" style="width:100%">地图控件加载区...</div>',itemId:'mapview'}
           ],
           plugins: tabMenu,
-          bbar:[
-              {id:"onlines", text:'在线?(?%)'},{xtype: 'tbseparator'},
-              {id:"offlines",xtype:'label',text:'不在线?(?%)'},{xtype: 'tbseparator'},
-              {id:'alarms',text:'状态报警(0)',icon:Ext.BLANK_IMAGE_URL},{xtype: 'tbseparator'},
-              {id:'limits',text:'围栏报警(0)',icon:Ext.BLANK_IMAGE_URL},{xtype: 'tbseparator'},
-              {id:'orders',text:'最新预约(0)'},{xtype: 'tbseparator'},
-              {id:'weibao',text:'到期提醒(0)', hidden:(g.visitor.levelId != 3)?true:false},
-              {xtype: 'tbseparator'},
-              alarmbtn
-          ],
           listeners:{
               tabchange:function( tabPanel, newCard, oldCard){
                   if(newCard.getId() == 'tab_0') G_AppTimer.excute(true);
@@ -44,10 +34,6 @@ Ext.define('MyApp.Component.AppTabPanel',{
           }
        });
        
-       Ext.ajaxModelLoader('MyApp.Model.GetAlarmCount').request();
-       Ext.ajaxModelLoader('MyApp.Model.GetLimitCount').request();
-       Ext.ajaxModelLoader('MyApp.Model.GetOrderCount').request();
-       Ext.ajaxModelLoader('MyApp.Model.GetWeibaoEnd').request();
        Ext.getCmp('appmain').add(this);
        
        var tip1 = Ext.create('Ext.tip.ToolTip',{
@@ -64,67 +50,9 @@ Ext.define('MyApp.Component.AppTabPanel',{
         else{
         	tip1.setDisabled(true);
         }
-       var onlineb = Ext.getCmp('onlines');
-       
-       onlineb.on('click',function(){
-       	var w = Ext.getCmp("VehicleOnlines_id");
-        if(w){
-          // w.close();
-        }else
-           Ext.create('MyApp.Component.VehicleOnlines');
-           
-       });
-       var alarmb = Ext.getCmp('alarms');
-       alarmb.on('click',function(){
-       	var w = Ext.getCmp("AlarmListWindow_id");
-        if(w){
-           //w.close();
-        }else
-           Ext.create('MyApp.Component.AlarmListWindow');
-       });
-       var weibao = Ext.getCmp('weibao');
-       
-       weibao.on('click',function(){
-       	var w = Ext.getCmp("AlarmListWindow_id");
-        if(w){
-           //w.close();
-        }else
-           Ext.create('MyApp.Component.WeibaoWarningWindow');
-       });
-       
-       var limitsb = Ext.getCmp('limits');
-       limitsb.on('click',function(){
-          var w = Ext.getCmp('AlarmLimitWindow_id');
-          if(!w) Ext.create('MyApp.Component.AlarmLimitWindow');
-       });
-       var orders = Ext.getCmp('orders');
-       orders.on('click',function(){
       
-          Ext.getCmp('apptabs').open({title:"最新预约",url:'newOrder.html'});
-       });
-       alarmbtn.on('click',function(){
-           if(isAlarm) {
-               this.setIconCls('alarm-off');
-               isAlarm = false;
-               tip1.setDisabled(true);
-               tip2.setDisabled(false);
-           }else {
-               this.setIconCls('alarm-on');
-               isAlarm = true;
-               tip1.setDisabled(false);
-               tip2.setDisabled(true);
-           }
-           MyApp.Base.LocalSet.setAlarmSwitch(isAlarm);
-       });
-       
        var apptabs = this;
-       if(memoryTabs.length > 0) Ext.Msg.confirm('系统提示','是否恢复上一次的标签项',function(btn){
-           if(btn == 'yes') {
-               for(var i=0; i<memoryTabs.length; i++) {
-                    apptabs.open(memoryTabs[i]);
-                }
-           } else MyApp.Base.LocalSet.clearMemoryTabs();
-       });
+       
        
    },
    open:function(item) {
@@ -150,10 +78,6 @@ Ext.define('MyApp.Component.AppTabPanel',{
         this.setActiveTab(newid); 
    } ,
    refresh: function(){
-       Ext.ajaxModelLoader('MyApp.Model.GetAlarmCount').request();
-       Ext.ajaxModelLoader('MyApp.Model.GetLimitCount').request();
-        Ext.ajaxModelLoader('MyApp.Model.GetOrderCount').request();
-        Ext.ajaxModelLoader('MyApp.Model.GetWeibaoEnd').request();
        this.items.each(function(tab){
           if(tab.getId() != 'tab_0') tab.getEl().down('iframe').dom.contentWindow.location.reload();
        });

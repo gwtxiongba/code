@@ -11,11 +11,11 @@ else if(typeof(CRMApp)!= 'object') throw new Error('CRMApp has already exists bu
 CRMApp.Configuration = {
     version:'1.0',
     debug_on:false,
-    jsPath:'carmonitorali/theme/js',
+    jsPath:'BatteryManage/theme/js',
     extJs:'extjs4.2',
-    servicePath:'http://192.168.0.126:8080/carmonitorali/api.action',
+    servicePath:'http://127.0.0.1:8080/BatteryManage/api.action',
     CookieSet: {
-        domain: "192.168.0.126"
+        domain: "127.0.0.1"
     },
     UserSet: {isAlarm : true , pageSize: 20},
 	UPLOADER_SERVLET_URL : "http://www.chanceit.cn:8081/fileload/"

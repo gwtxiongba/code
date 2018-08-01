@@ -21,7 +21,7 @@
 			<list>
 				<!-- jdbc配置 -->
 				<value>classpath*:jdbc.properties</value>
-				<value>classpath*:redis.properties</value>
+				
 			</list>
 		</property>
 	</bean>

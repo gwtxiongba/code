@@ -8,7 +8,7 @@
 	<!-- 加载spring的配置文件 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath*:spring-*.xml,classpath:org/codehaus/xfire/spring/xfire.xml</param-value>
+		<param-value>classpath*:spring-*.xml</param-value>
 	</context-param>
 	<!-- 编码过滤器元素 -->
 	<filter>
@@ -31,37 +31,8 @@
 	</filter-mapping>
 
 
-	<!-- 防止session被没有用完就关闭问题 -->
-    <!-- 
-	<filter>
-		<filter-name>hibernateFilter</filter-name>
-		<filter-class>
-			org.springframework.orm.hibernate3.support.OpenSessionInViewFilter
-		</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>hibernateFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>hibernateFilter</filter-name>
-		<url-pattern>*.action</url-pattern>
-	</filter-mapping>
-	 -->
-	 
-	<!-- 集成XFire -->
-	<servlet>
-		<servlet-name>XFireServlet</servlet-name>
-		<servlet-class>
-			org.springframework.web.servlet.DispatcherServlet
-		</servlet-class>
-	</servlet>
-
-			<!-- position WebService -->
-	<servlet-mapping>
-		<servlet-name>XFireServlet</servlet-name>
-		<url-pattern>/services/positionService</url-pattern>
-	</servlet-mapping>
+	
+	
 
 	<!-- struts2配置拦截器 -->
 	<filter>

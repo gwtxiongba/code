@@ -44,9 +44,6 @@ protected Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	@Qualifier("sessionFactory")
 	protected SessionFactory sessionFactory;
-	@Autowired
-	@Qualifier("converter")
-	private Converter converter;
 	/**
 	 * @author yehao
 	 * @date Nov 17, 2011

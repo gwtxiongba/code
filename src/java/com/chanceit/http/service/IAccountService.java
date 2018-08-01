@@ -25,16 +25,11 @@ public interface IAccountService {
 	public boolean update(Account account);
 
 	public Account get(int accountId);
-	public List<Account> getListTe(int teamId) ;
 	@SuppressWarnings("unchecked")
-	public List<Account> getList(String companyId);
 	public Page getPageList(Page page,Object[] values );
 	public boolean ifExist(String accountName) throws Exception;
 	public Account getByName(String accountName) throws Exception;
-	public Account getByRandomCode(String randomCode)throws Exception;
-	public Account getByEmail(String email)throws Exception;
-	public boolean ifExistEmail(String email,int accountId);
-	public Page getPageListCompany(Page page);
+	
 	
 	/**
 	 * 存储用户账号密码供内部使用
